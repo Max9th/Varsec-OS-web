@@ -11,5 +11,8 @@
 
 https://max9th.github.io/Varsec-OS-web/
 
+Check out the source code:
+
+https://github.com/Max9th/Varsec-OS-web
 
 Made in GODOT

@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0">
-		<title>Varsec Fantasy OS</title>
+		<title>Varsec Fantasy OS 2.0</title>
 		<style>
 html, body, #canvas {
 	margin: 0;
@@ -78,17 +78,6 @@ body {
 		</style>
 		<link id="-gd-engine-icon" rel="icon" type="image/png" href="index.icon.png" />
 <link rel="apple-touch-icon" href="index.apple-touch-icon.png"/>
-<script>
-    window.checkVisit = function () {
-        let hasVisited = localStorage.getItem("hasVisited");
-        if (hasVisited) {
-            return true;
-        } else {
-            localStorage.setItem("hasVisited", "true");
-            return false; 
-        }
-    };
-</script>
 
 	</head>
 	<body>
@@ -108,7 +97,7 @@ body {
 
 		<script src="index.js"></script>
 		<script>
-const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"ensureCrossOriginIsolationHeaders":true,"executable":"index","experimentalVK":true,"fileSizes":{"index.pck":49985520,"index.wasm":1620216},"focusCanvas":true,"gdextensionLibs":[]};
+const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"ensureCrossOriginIsolationHeaders":true,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":17627008,"index.wasm":1620216},"focusCanvas":true,"gdextensionLibs":[]};
 const GODOT_THREADS_ENABLED = false;
 const engine = new Engine(GODOT_CONFIG);
 
@@ -153,7 +142,7 @@ const engine = new Engine(GODOT_CONFIG);
 		} else if (typeof err === 'string') {
 			setStatusNotice(err);
 		} else {
-			setStatusNotice('An unknown error occured');
+			setStatusNotice('An unknown error occurred.');
 		}
 		setStatusMode('notice');
 		initializing = false;
@@ -165,9 +154,15 @@ const engine = new Engine(GODOT_CONFIG);
 
 	if (missing.length !== 0) {
 		if (GODOT_CONFIG['serviceWorker'] && GODOT_CONFIG['ensureCrossOriginIsolationHeaders'] && 'serviceWorker' in navigator) {
+			let serviceWorkerRegistrationPromise;
+			try {
+				serviceWorkerRegistrationPromise = navigator.serviceWorker.getRegistration();
+			} catch (err) {
+				serviceWorkerRegistrationPromise = Promise.reject(new Error('Service worker registration failed.'));
+			}
 			// There's a chance that installing the service worker would fix the issue
 			Promise.race([
-				navigator.serviceWorker.getRegistration().then((registration) => {
+				serviceWorkerRegistrationPromise.then((registration) => {
 					if (registration != null) {
 						return Promise.reject(new Error('Service worker already exists.'));
 					}
@@ -177,10 +172,11 @@ const engine = new Engine(GODOT_CONFIG);
 				new Promise((resolve) => {
 					setTimeout(() => resolve(), 2000);
 				}),
-			]).catch((err) => {
-				console.error('Error while registering service worker:', err);
-			}).then(() => {
+			]).then(() => {
+				// Reload if there was no error.
 				window.location.reload();
+			}).catch((err) => {
+				console.error('Error while registering service worker:', err);
 			});
 		} else {
 			// Display the message as usual

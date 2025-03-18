@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0">
-		<title>Varsec Fantasy OS 2.0</title>
+		<title>Varsec Fantasy OS</title>
 		<style>
 html, body, #canvas {
 	margin: 0;
@@ -52,6 +52,20 @@ body {
 	margin: auto;
 }
 
+#status-splash.show-image--false {
+	display: none;
+}
+
+#status-splash.fullsize--true {
+	height: 100%;
+	width: 100%;
+	object-fit: contain;
+}
+
+#status-splash.use-filter--false {
+	image-rendering: pixelated;
+}
+
 #status-progress, #status-notice {
 	display: none;
 }
@@ -90,14 +104,14 @@ body {
 		</noscript>
 
 		<div id="status">
-			<img id="status-splash" src="index.png" alt="">
+			<img id="status-splash" class="show-image--false fullsize--false use-filter--false" src="index.png" alt="">
 			<progress id="status-progress"></progress>
 			<div id="status-notice"></div>
 		</div>
 
 		<script src="index.js"></script>
 		<script>
-const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"ensureCrossOriginIsolationHeaders":true,"executable":"index","experimentalVK":true,"fileSizes":{"index.pck":51835680,"index.wasm":1620216},"focusCanvas":true,"gdextensionLibs":[]};
+const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"ensureCrossOriginIsolationHeaders":true,"executable":"index","experimentalVK":true,"fileSizes":{"index.pck":91439472,"index.wasm":1625538},"focusCanvas":true,"gdextensionLibs":[]};
 const GODOT_THREADS_ENABLED = false;
 const engine = new Engine(GODOT_CONFIG);
 
